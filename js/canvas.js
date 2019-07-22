@@ -1,26 +1,52 @@
-let width = document.querySelector('#fabric-container').clientWidth;
-let height = document.querySelector('#fabric-container').clientHeight;
-console.log(width);
+let canvasWidth = document.querySelector("#fabric-container").clientWidth;
+let canvasHeight = document.querySelector("#fabric-container").clientHeight;
 
-let canvas = new fabric.Canvas('mainCanvas');
-canvas.setWidth(width)
-canvas.setHeight(height)
-
+let canvas = new fabric.Canvas("mainCanvas");
+canvas.setWidth(canvasWidth);
+canvas.setHeight(canvasHeight);
 
 
-// canvas.setBackgroundImage('https://png2.kisspng.com/sh/fc4ff5ab32a474f66cd6bd7062c1f70d/L0KzQYm3UsA0N5Z6j5H0aYP2gLBuTgBzcZ95fdY2dD32eLr5lL10dJZqjtc2Y3zyhLnwjvcuap1mht02d3jshLa0lL10cJp3jJ99ZX3zfLL7hb1xdpgyTdMCNUTlRYrrVsQ0a2YzSagBNUO8QIG4VcE4PmQ7TKY6OEe6RnB3jvc=/kisspng-printed-t-shirt-sleeve-clothing-blank-white-t-shirt-template-png-5a754b59d643c5.1665390015176364418776.png',
-//     canvas.renderAll.bind(canvas), {
-//         scaleX: 1,
-//         scaleY: 1,
-//     })
+/*
+    Calculating the scale factor of the canvas' background
+    image dynamically to keep the code short.
+*/
+
+const backgroundImage = document.querySelector("#tshirt-grey");
+
+const canvasAspect = canvasWidth / canvasHeight;
+const imgAspect = backgroundImage.width / backgroundImage.height;
+
+var scaleFactor;
+if (canvasAspect >= imgAspect) {
+    scaleFactor = 1.1 / (canvasWidth / backgroundImage.width);
+} else {
+    scaleFactor = 1.1 / (canvasHeight / backgroundImage.height);
+}
+
+var center = canvas.getCenter();
+canvas.setBackgroundImage('https://www.stickpng.com/assets/images/580b57fbd9996e24bc43bf78.png',
+    canvas.renderAll.bind(canvas), {
+        top: center.top,
+        left: center.left,
+        originX: 'center',
+        originY: 'center',
+        scaleX: scaleFactor,
+        scaleY: scaleFactor
+    });
+
+
+
+
 
 var rect = new fabric.Rect({
     left: 100,
     top: 100,
-    fill: 'red',
+    fill: "red",
     width: 20,
     height: 20,
     angle: 45
-  });
+});
 
-canvas.add(rect); // add object
+canvas.centerObject(rect);
+
+canvas.add(rect);

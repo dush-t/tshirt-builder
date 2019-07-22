@@ -29,7 +29,11 @@ html {
     height: 100%;
 }
 
-#mainCanvas {
+/* #mainCanvas {
     background-color: yellow;
     width: 100%;
+} */
+
+#tshirt-grey {
+    display: none;
 }
