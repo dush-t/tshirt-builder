@@ -1,7 +1,10 @@
-// let width = document.querySelector('.fabric-container')[0].offsetWidth;
-// let height = document.querySelector('.fabric-container')[0].offsetHeight;
+let width = document.querySelector('#fabric-container').clientWidth;
+let height = document.querySelector('#fabric-container').clientHeight;
+console.log(width);
 
 let canvas = new fabric.Canvas('mainCanvas');
+canvas.setWidth(width)
+canvas.setHeight(height)
 
 
 

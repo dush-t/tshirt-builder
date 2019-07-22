@@ -16,7 +16,7 @@ html {
     margin-left:30px;
 }
 
-.fabric-container {
+#fabric-container {
     float: right;
     width: 65vw;
     height: 91vh;
