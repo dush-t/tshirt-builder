@@ -182,6 +182,7 @@ const addImage = (url, opacity) => {
     canvas.add(imgInstance);
 }
 
+
 const addSVG = (url) => {
     fabric.loadSVGFromURL(url, (objects, options) => {
         const obj = fabric.util.groupSVGElements(objects, options);
@@ -189,4 +190,17 @@ const addSVG = (url) => {
     })
 }
 
+
+/*  Just adding this to have some homogeneity
+    in the code. IText is just a special kind
+    of object that lets the user edit the text
+    on canvas.
+*/
+const addText = (textContent, properties) => {
+    let text = new fabric.IText(textContent, {...properties});
+    canvas.add(text);
+}
+
+
+// addText('Mr_Dush__T', {left: 100, top: 100});
 // addImage('https://www.stickpng.com/assets/images/580b57fbd9996e24bc43bf78.png', 1);
