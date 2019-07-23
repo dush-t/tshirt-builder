@@ -69,9 +69,7 @@ const updateCanvasState = () => {
             canvasStates.splice(stateIndex + 1, uselessStateCount);
         }
         canvasStates.push(JSON.parse(JSON.stringify(canvas)));
-        // console.log(canvasStates);
         stateIndex++;
-        // console.log(stateIndex);
         numModifications++;
         console.log(stateIndex);
     }
@@ -130,10 +128,8 @@ const mapKeysToActions = () => {
     let eventObject = window.event ? event : e;
     if (eventObject.keyCode == 90 && eventObject.ctrlKey) {  // ctrl + z
         undo();
-        // console.log('lolz')
     } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {  // ctrl + y
         redo();
-        // console.log('loly')
     } else if (eventObject.keyCode == 46) {  // del
         deleteObjects();
     } else {
@@ -186,4 +182,11 @@ const addImage = (url, opacity) => {
     canvas.add(imgInstance);
 }
 
-addImage('https://www.stickpng.com/assets/images/580b57fbd9996e24bc43bf78.png', 1);
+const addSVG = (url) => {
+    fabric.loadSVGFromURL(url, (objects, options) => {
+        const obj = fabric.util.groupSVGElements(objects, options);
+        canvas.add(obj).renderAll();
+    })
+}
+
+// addImage('https://www.stickpng.com/assets/images/580b57fbd9996e24bc43bf78.png', 1);
