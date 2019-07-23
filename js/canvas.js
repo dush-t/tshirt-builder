@@ -109,12 +109,15 @@ const redo = () => {
 const deleteObjects = () => {
     const activeObject = canvas.getActiveObject();
     const activeGroup = canvas.getActiveObjects();
-    if (activeObject) {
+    console.log(activeGroup)
+    if (activeObject && !activeGroup) {     // activeObject is truthy even when activeGroup exists.
         canvas.remove(activeObject);
+        console.log('activeObject')
     } else if (activeGroup) {
-        const objectsToDelete = activeGroup.getObjects();
-        canvas.discardActiveGroup();
-        objectsToDelete.forEach((object) => canvas.remove(object));
+        activeGroup.forEach((object) => {
+            console.log('lol')
+            canvas.remove(object);
+        });
     }
 }
 
@@ -132,7 +135,6 @@ const mapKeysToActions = () => {
         redo();
         // console.log('loly')
     } else if (eventObject.keyCode == 46) {  // del
-        console.log('lol')
         deleteObjects();
     } else {
         // do nothing if there is no match.
