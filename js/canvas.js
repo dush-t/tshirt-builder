@@ -151,6 +151,16 @@ canvas.on('object:modified', () => updateCanvasState());
 canvas.on('object:removed', () => updateCanvasState());
 
 
+
+const updateObject = (objectToUpdate, updateBody, selectedObject=false) => {
+    var targetObject = selectedObject ? canvas.getActiveObject() : objectToUpdate;
+    console.log(targetObject);
+    targetObject.set({...updateBody});
+    targetObject.dirty = true;
+    canvas.renderAll();
+}
+
+
 // Adding a small rectangle for testing
 var rect = new fabric.Rect({
     left: 100,
@@ -164,6 +174,10 @@ var rect = new fabric.Rect({
 canvas.centerObject(rect);
 
 canvas.add(rect);
+
+// updateObject(rect, {
+//     'width': 100
+// });
 
 /*
     Add image to canvas from given url.
