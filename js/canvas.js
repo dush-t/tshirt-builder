@@ -140,6 +140,8 @@ const mapKeysToActions = () => {
 }
 document.onkeydown = mapKeysToActions;
 
+
+
 /* 
     Make sure updateCanvasState runs WHENEVER the
     canvas is modified. However, updateCanvasState
@@ -164,3 +166,22 @@ var rect = new fabric.Rect({
 canvas.centerObject(rect);
 
 canvas.add(rect);
+
+/*
+    Add image to canvas from given url.
+    The url can be a local path or a web
+    address. Opacity can be specified.
+*/
+const addImage = (url, opacity) => {
+    let img = document.createElement('img');
+    img.setAttribute('src', url);
+    img.style.display = 'none';
+    let imgInstance = new fabric.Image(img, {
+        left: 100,
+        top: 100,
+        opacity: opacity,
+    });
+    canvas.add(imgInstance);
+}
+
+addImage('https://www.stickpng.com/assets/images/580b57fbd9996e24bc43bf78.png', 1);
