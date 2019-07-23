@@ -61,21 +61,25 @@ const updateCanvasState = () => {
 }
 
 const undo = () => {
-    undo_redo = true;
-    stateIndex--;
-    const state = canvasStates[stateIndex];
-    canvas.loadFromJSON(state, () => {
-        canvas.renderAll();
-    });
-    console.log(stateIndex);
+    if (stateIndex > 0) {
+        undo_redo = true;
+        stateIndex--;
+        const state = canvasStates[stateIndex];
+        canvas.loadFromJSON(state, () => {
+            canvas.renderAll();
+        });
+        console.log(stateIndex);
+    }
 }
 
 const redo = () => {
-    undo_redo = true;
-    stateIndex++;
-    const state = canvasStates[stateIndex];
-    canvas.loadFromJSON(state, () => canvas.renderAll());
-    console.log(stateIndex);
+    if (stateIndex < canvasStates.length) {
+        undo_redo = true;
+        stateIndex++;
+        const state = canvasStates[stateIndex];
+        canvas.loadFromJSON(state, () => canvas.renderAll());
+        console.log(stateIndex);
+    }
 }
 
 const mapKeysToActions = () => {

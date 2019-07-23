@@ -21,7 +21,7 @@ html {
     width: 65vw;
     height: 91vh;
     position: relative;
-    background-color: green;
+    background-color: #eee;
 }
 
 .canvas-container {
