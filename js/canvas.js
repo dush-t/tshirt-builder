@@ -1,6 +1,14 @@
 let canvasWidth = document.querySelector("#fabric-container").clientWidth;
 let canvasHeight = document.querySelector("#fabric-container").clientHeight;
 
+let canvasStates = []
+let stateIndex = -1;     // Stores the index of the current canvas state.
+let numModifications = 0;
+
+                         // When true, updateCanvasState will do nothing.
+let undo_redo = false;   // This is to ensure that it does not interfere 
+                         // with undo and redo operations.
+
 let canvas = new fabric.Canvas("mainCanvas");
 canvas.setWidth(canvasWidth);
 canvas.setHeight(canvasHeight);
@@ -36,6 +44,58 @@ canvas.setBackgroundImage('https://www.stickpng.com/assets/images/580b57fbd9996e
     });
 
 
+const updateCanvasState = () => {
+    if (!undo_redo) {
+        if (stateIndex < canvasStates.length) {
+            uselessStateCount = canvasStates.length - stateIndex + 1;
+            canvasStates.splice(stateIndex + 1, uselessStateCount);
+        }
+        canvasStates.push(JSON.parse(JSON.stringify(canvas)));
+        // console.log(canvasStates);
+        stateIndex++;
+        // console.log(stateIndex);
+        numModifications++;
+        console.log(stateIndex);
+    }
+    undo_redo = false;
+}
+
+const undo = () => {
+    undo_redo = true;
+    stateIndex--;
+    const state = canvasStates[stateIndex];
+    canvas.loadFromJSON(state, () => {
+        canvas.renderAll();
+    });
+    console.log(stateIndex);
+}
+
+const redo = () => {
+    undo_redo = true;
+    stateIndex++;
+    const state = canvasStates[stateIndex];
+    canvas.loadFromJSON(state, () => canvas.renderAll());
+    console.log(stateIndex);
+}
+
+const mapKeysToActions = () => {
+    let eventObject = window.event ? event : e;
+    if (eventObject.keyCode == 90 && eventObject.ctrlKey) {
+        undo();
+        // console.log('lolz')
+    } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {
+        redo();
+        // console.log('loly')
+    } else {
+        
+    }
+}
+document.onkeydown = mapKeysToActions;
+
+// For undo-redo functionality
+canvas.on('object:added', () => updateCanvasState());
+canvas.on('object:modified', () => updateCanvasState());
+canvas.on('object:removed', () => updateCanvasState());
 
 
 
@@ -53,22 +113,27 @@ canvas.centerObject(rect);
 canvas.add(rect);
 
 
+
 /*
     Functions to interact with the canvas
 */
 
+// ADD RECTANGLE
+// const addRectangle = (color) => {
+//     const rect = new fabric.Rect({
+//         left: 100,
+//         top: 100,
+//         fill: color,
+//         width: 40,
+//         height: 30,
+//         angle: 0
+//     });
+//     canvas.add(rect);
+//     canvasStates.push(JSON.stringify(canvas));
+// }
 
-const addRectangle = (color) => {
-    const rect = new fabric.Rect({
-        left: 100,
-        top: 100,
-        fill: color,
-        width: 40,
-        height: 30,
-        angle: 0
-    });
-    canvas.add(rect);
-    console.log(typeof rect)
-}
 
-addRectangle("yellow");
+
+// addRectangle("yellow");
+
+// console.log(canvasStates);
