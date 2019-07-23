@@ -1,3 +1,10 @@
+/*
+    This file will be used to interact with the canvas. 
+    This file SHOULD NOT contain code that makes the UI
+    work. Only define functions that directly modify
+    the canvas here.
+*/
+
 let canvasWidth = document.querySelector("#fabric-container").clientWidth;
 let canvasHeight = document.querySelector("#fabric-container").clientHeight;
 
@@ -6,8 +13,9 @@ let stateIndex = -1; // Stores the index of the current canvas state.
 let numModifications = 0;
 
 // When true, updateCanvasState will do nothing.
-let undo_redo = false; // This is to ensure that it does not interfere 
+// This is to ensure that it does not interfere 
 // with undo and redo operations.
+let undo_redo = false;
 
 let canvas = new fabric.Canvas("mainCanvas");
 canvas.setWidth(canvasWidth);
@@ -19,7 +27,6 @@ canvas.setHeight(canvasHeight);
     image dynamically to keep the code short. 1.7 is a magic
     number
 */
-
 const backgroundImage = document.querySelector("#tshirt-grey");
 
 const canvasAspect = canvasWidth / canvasHeight;
@@ -44,6 +51,17 @@ canvas.setBackgroundImage('https://www.stickpng.com/assets/images/580b57fbd9996e
     });
 
 
+/*
+    Add the latest state to canvasStates array, so that
+    the information can be used in the future in case the
+    user decides to undo/redo. Function will run only
+    if the state change is not because of an undo/redo 
+    operation. 
+
+    If a user has done an undo operation and then modifies 
+    the canvas, all state after that undo is lost (It's not
+    a bug. That's how undo/redo works in VS code too.)
+*/
 const updateCanvasState = () => {
     if (!undo_redo) {
         if (stateIndex < canvasStates.length) {
@@ -60,6 +78,8 @@ const updateCanvasState = () => {
     undo_redo = false;
 }
 
+
+// Undo a change to canvas
 const undo = () => {
     if (stateIndex > 0) {
         undo_redo = true;
@@ -72,6 +92,8 @@ const undo = () => {
     }
 }
 
+
+// Redo a change to canvas
 const redo = () => {
     if (stateIndex < canvasStates.length) {
         undo_redo = true;
@@ -82,6 +104,8 @@ const redo = () => {
     }
 }
 
+
+// Delete a selected object or a selected group of objects
 const deleteObjects = () => {
     const activeObject = canvas.getActiveObject();
     const activeGroup = canvas.getActiveObjects();
@@ -94,30 +118,40 @@ const deleteObjects = () => {
     }
 }
 
+
+/*
+    Bind which of the above functions are triggered by
+    which key stroked
+*/
 const mapKeysToActions = () => {
     let eventObject = window.event ? event : e;
-    if (eventObject.keyCode == 90 && eventObject.ctrlKey) {
+    if (eventObject.keyCode == 90 && eventObject.ctrlKey) {  // ctrl + z
         undo();
         // console.log('lolz')
-    } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {
+    } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {  // ctrl + y
         redo();
         // console.log('loly')
-    } else if (eventObject.keyCode == 46) {
+    } else if (eventObject.keyCode == 46) {  // del
         console.log('lol')
         deleteObjects();
     } else {
-
+        // do nothing if there is no match.
     }
 }
 document.onkeydown = mapKeysToActions;
 
-// For undo-redo functionality
+/* 
+    Make sure updateCanvasState runs WHENEVER the
+    canvas is modified. However, updateCanvasState
+    will do nothing if undo_redo is true (except
+    setting it to false)
+*/
 canvas.on('object:added', () => updateCanvasState());
 canvas.on('object:modified', () => updateCanvasState());
 canvas.on('object:removed', () => updateCanvasState());
 
 
-
+// Adding a small rectangle for testing
 var rect = new fabric.Rect({
     left: 100,
     top: 100,
@@ -130,29 +164,3 @@ var rect = new fabric.Rect({
 canvas.centerObject(rect);
 
 canvas.add(rect);
-
-
-
-/*
-    Functions to interact with the canvas
-*/
-
-// ADD RECTANGLE
-// const addRectangle = (color) => {
-//     const rect = new fabric.Rect({
-//         left: 100,
-//         top: 100,
-//         fill: color,
-//         width: 40,
-//         height: 30,
-//         angle: 0
-//     });
-//     canvas.add(rect);
-//     canvasStates.push(JSON.stringify(canvas));
-// }
-
-
-
-// addRectangle("yellow");
-
-// console.log(canvasStates);
