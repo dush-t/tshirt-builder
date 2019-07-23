@@ -2,12 +2,12 @@ let canvasWidth = document.querySelector("#fabric-container").clientWidth;
 let canvasHeight = document.querySelector("#fabric-container").clientHeight;
 
 let canvasStates = []
-let stateIndex = -1;     // Stores the index of the current canvas state.
+let stateIndex = -1; // Stores the index of the current canvas state.
 let numModifications = 0;
 
-                         // When true, updateCanvasState will do nothing.
-let undo_redo = false;   // This is to ensure that it does not interfere 
-                         // with undo and redo operations.
+// When true, updateCanvasState will do nothing.
+let undo_redo = false; // This is to ensure that it does not interfere 
+// with undo and redo operations.
 
 let canvas = new fabric.Canvas("mainCanvas");
 canvas.setWidth(canvasWidth);
@@ -27,9 +27,9 @@ const imgAspect = backgroundImage.width / backgroundImage.height;
 
 var scaleFactor;
 if (canvasAspect >= imgAspect) {
-    scaleFactor =  (canvasWidth / backgroundImage.width)/1.7;
+    scaleFactor = (canvasWidth / backgroundImage.width) / 1.7;
 } else {
-    scaleFactor =  (canvasHeight / backgroundImage.height)/1.7;
+    scaleFactor = (canvasHeight / backgroundImage.height) / 1.7;
 }
 
 var center = canvas.getCenter();
@@ -82,6 +82,18 @@ const redo = () => {
     }
 }
 
+const deleteObjects = () => {
+    const activeObject = canvas.getActiveObject();
+    const activeGroup = canvas.getActiveObjects();
+    if (activeObject) {
+        canvas.remove(activeObject);
+    } else if (activeGroup) {
+        const objectsToDelete = activeGroup.getObjects();
+        canvas.discardActiveGroup();
+        objectsToDelete.forEach((object) => canvas.remove(object));
+    }
+}
+
 const mapKeysToActions = () => {
     let eventObject = window.event ? event : e;
     if (eventObject.keyCode == 90 && eventObject.ctrlKey) {
@@ -90,8 +102,11 @@ const mapKeysToActions = () => {
     } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {
         redo();
         // console.log('loly')
+    } else if (eventObject.keyCode == 46) {
+        console.log('lol')
+        deleteObjects();
     } else {
-        
+
     }
 }
 document.onkeydown = mapKeysToActions;
