@@ -8,7 +8,8 @@ canvas.setHeight(canvasHeight);
 
 /*
     Calculating the scale factor of the canvas' background
-    image dynamically to keep the code short.
+    image dynamically to keep the code short. 1.7 is a magic
+    number
 */
 
 const backgroundImage = document.querySelector("#tshirt-grey");
@@ -18,9 +19,9 @@ const imgAspect = backgroundImage.width / backgroundImage.height;
 
 var scaleFactor;
 if (canvasAspect >= imgAspect) {
-    scaleFactor = 1.1 / (canvasWidth / backgroundImage.width);
+    scaleFactor =  (canvasWidth / backgroundImage.width)/1.7;
 } else {
-    scaleFactor = 1.1 / (canvasHeight / backgroundImage.height);
+    scaleFactor =  (canvasHeight / backgroundImage.height)/1.7;
 }
 
 var center = canvas.getCenter();
@@ -50,3 +51,24 @@ var rect = new fabric.Rect({
 canvas.centerObject(rect);
 
 canvas.add(rect);
+
+
+/*
+    Functions to interact with the canvas
+*/
+
+
+const addRectangle = (color) => {
+    const rect = new fabric.Rect({
+        left: 100,
+        top: 100,
+        fill: color,
+        width: 40,
+        height: 30,
+        angle: 0
+    });
+    canvas.add(rect);
+    console.log(typeof rect)
+}
+
+addRectangle("yellow");
