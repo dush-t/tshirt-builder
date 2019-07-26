@@ -1,38 +1,64 @@
 <!DOCTYPE html>
-
 <html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./dist/css/ionicons.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400&display=swap" rel="stylesheet"
+            type="text/css">
+        <link type="text/css" rel="stylesheet" href="./dist/css/materialize.css" media="screen,projection" />
+        <link type="text/css" rel="stylesheet" href="./dist/css/main.min.css" />
+        <link rel="stylesheet" href="./dist/css/global.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tshirt Builder</title>
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo">REVER</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="collapsible.html"><i class="ion-ios-infinite-outline"></i></a></li>
+                    <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="wrapper">
 
-<head>
-    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400&display=swap" rel="stylesheet"
-        type="text/css">
-    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="css/styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tshirt Builder</title>
-</head>
-
-<body>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">REVER</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="collapsible.html"><i class="ion-ios-infinite-outline"></i></a></li>
-                <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
-            </ul>
+            <div class="toolbar">
+                <div class="sidebar">
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Test
+                    </div>
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Art
+                    </div>
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Upload
+                    </div>
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Color
+                    </div>
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Name
+                    </div>
+                    <div class="tool">
+                        <div class="tool-icon"></div>
+                        Notes
+                    </div>
+                </div>
+            </div>
+            <div id="fabric-container">
+                <canvas id="mainCanvas"></canvas>
+            </div>
+            <img src="tshirt-grey.png" id="tshirt-grey">
         </div>
-    </nav>
 
-    <div id="fabric-container">
-        <canvas id="mainCanvas"></canvas>
-    </div>
-
-    <img src="tshirt-grey.png" id="tshirt-grey">
-
-
-    <script type="text/javascript" src="js/materialize.js"></script>
-    <script type="text/javascript" src="js/fabric.js"></script>
-    <script type="text/javascript" src="js/canvas.js"></script>
-</body>
+        <script type="text/javascript" src="js/materialize.js"></script>
+        <script type="text/javascript" src="js/fabric.js"></script>
+        <script type="text/javascript" src="js/canvas.js"></script>
+    </body>
 
 </html>
