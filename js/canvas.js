@@ -9,7 +9,7 @@ let canvasWidth = document.querySelector("#fabric-container").clientWidth;
 let canvasHeight = document.querySelector("#fabric-container").clientHeight;
 
 let canvasStates = []
-let stateIndex = -1; // Stores the index of the current canvas state.
+let stateIndex = -2; // Stores the index of the current canvas state.
 let numModifications = 0;
 
 // When true, updateCanvasState will do nothing.
@@ -73,7 +73,6 @@ const updateCanvasState = () => {
         numModifications++;
         console.log(stateIndex);
     }
-    undo_redo = false;
 }
 
 
@@ -83,8 +82,10 @@ const undo = () => {
         undo_redo = true;
         stateIndex--;
         const state = canvasStates[stateIndex];
+        canvas.clear();
         canvas.loadFromJSON(state, () => {
             canvas.renderAll();
+            undo_redo = false;
         });
         console.log(stateIndex);
     }
@@ -97,7 +98,11 @@ const redo = () => {
         undo_redo = true;
         stateIndex++;
         const state = canvasStates[stateIndex];
-        canvas.loadFromJSON(state, () => canvas.renderAll());
+        canvas.clear();
+        canvas.loadFromJSON(state, () => {
+            canvas.renderAll();
+            undo_redo=false;
+        })
         console.log(stateIndex);
     }
 }
@@ -108,7 +113,7 @@ const deleteObjects = () => {
     const activeObject = canvas.getActiveObject();
     const activeGroup = canvas.getActiveObjects();
     console.log(activeGroup)
-    if (activeObject && !activeGroup) {     // activeObject is truthy even when activeGroup exists.
+    if (activeObject && !activeGroup) { // activeObject is truthy even when activeGroup exists.
         canvas.remove(activeObject);
         console.log('activeObject')
     } else if (activeGroup) {
@@ -126,12 +131,14 @@ const deleteObjects = () => {
 */
 const mapKeysToActions = () => {
     let eventObject = window.event ? event : e;
-    if (eventObject.keyCode == 90 && eventObject.ctrlKey) {  // ctrl + z
+    if (eventObject.keyCode == 90 && eventObject.ctrlKey) { // ctrl + z
         undo();
-    } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) {  // ctrl + y
+    } else if (eventObject.keyCode == 89 && eventObject.ctrlKey) { // ctrl + y
         redo();
-    } else if (eventObject.keyCode == 46) {  // del
+    } else if (eventObject.keyCode == 46) { // del
         deleteObjects();
+    } else if (eventObject.keyCode == 32 && eventObject.ctrlKey) { // ctrl + space
+        ungroupSVG();
     } else {
         // do nothing if there is no match.
     }
@@ -152,10 +159,12 @@ canvas.on('object:removed', () => updateCanvasState());
 
 
 
-const updateObject = (objectToUpdate, updateBody, selectedObject=false) => {
+const updateObject = (objectToUpdate, updateBody, selectedObject = false) => {
     var targetObject = selectedObject ? canvas.getActiveObject() : objectToUpdate;
     console.log(targetObject);
-    targetObject.set({...updateBody});
+    targetObject.set({
+        ...updateBody
+    });
     targetObject.dirty = true;
     canvas.renderAll();
 }
@@ -173,7 +182,7 @@ var rect = new fabric.Rect({
 
 canvas.centerObject(rect);
 
-canvas.add(rect);
+// canvas.add(rect);
 
 // updateObject(rect, {
 //     'width': 100
@@ -204,6 +213,40 @@ const addSVG = (url) => {
     })
 }
 
+addSVG('https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg');
+
+
+/*
+    I am disabling the event listeners because toActiveSelection()
+    does it's job in a loop and will push multiple states to the 
+    canvasStates array if the event listeners are enabled. So what
+    I'm doing instead is disabling them for a while and managing
+    the state manually. A little risky but meh.
+*/
+const ungroupSVG = () => {
+    undo_redo = true;
+    const selectedGroup = canvas.getActiveObject();
+    if (!selectedGroup || selectedGroup.type !== 'group') {
+        console.log('Selected object is not a group');
+        return;
+    }
+    canvas.off('object:added');
+    canvas.off('object:modified');
+    canvas.off('object:removed');
+    selectedGroup.toActiveSelection();
+    canvas.requestRenderAll();
+    canvasStates.push(canvas.toJSON());
+    stateIndex++;
+    canvas.on('object:added', () => updateCanvasState());
+    canvas.on('object:modified', () => updateCanvasState());
+    canvas.on('object:removed', () => updateCanvasState());
+    console.log(stateIndex);
+}
+
+const groupSVG = () => {
+
+}
+
 
 /*  Just adding this to have some homogeneity
     in the code. IText is just a special kind
@@ -211,7 +254,9 @@ const addSVG = (url) => {
     on canvas.
 */
 const addText = (textContent, properties) => {
-    let text = new fabric.IText(textContent, {...properties});
+    let text = new fabric.IText(textContent, {
+        ...properties
+    });
     canvas.add(text);
 }
 
