@@ -50,7 +50,6 @@ canvas.setBackgroundImage('https://www.stickpng.com/assets/images/580b57fbd9996e
         scaleY: scaleFactor
     });
 
-
 /*
     Add the latest state to canvasStates array, so that
     the information can be used in the future in case the
@@ -101,7 +100,7 @@ const redo = () => {
         canvas.clear();
         canvas.loadFromJSON(state, () => {
             canvas.renderAll();
-            undo_redo=false;
+            undo_redo = false;
         })
         console.log(stateIndex);
     }
@@ -139,6 +138,8 @@ const mapKeysToActions = () => {
         deleteObjects();
     } else if (eventObject.keyCode == 32 && eventObject.ctrlKey) { // ctrl + space
         ungroupSVG();
+    } else if (eventObject.keyCode == 66 && eventObject.ctrlKey) { // ctrl + b
+        groupSVG();
     } else {
         // do nothing if there is no match.
     }
@@ -215,6 +216,20 @@ const addSVG = (url) => {
 
 addSVG('https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg');
 
+const passFinalStateOnly = (callback) => {
+    undo_redo = true;
+    canvas.off('object:added');
+    canvas.off('object:modified');
+    canvas.off('object:removed');
+    callback();
+    canvasStates.push(canvas.toJSON());
+    stateIndex++;
+    console.log(stateIndex);
+    canvas.on('object:added', () => updateCanvasState());
+    canvas.on('object:modified', () => updateCanvasState());
+    canvas.on('object:removed', () => updateCanvasState());
+    undo_redo = false;
+}
 
 /*
     I am disabling the event listeners because toActiveSelection()
@@ -224,26 +239,34 @@ addSVG('https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_sl
     the state manually. A little risky but meh.
 */
 const ungroupSVG = () => {
-    undo_redo = true;
-    const selectedGroup = canvas.getActiveObject();
-    if (!selectedGroup || selectedGroup.type !== 'group') {
-        console.log('Selected object is not a group');
-        return;
-    }
-    canvas.off('object:added');
-    canvas.off('object:modified');
-    canvas.off('object:removed');
-    selectedGroup.toActiveSelection();
-    canvas.requestRenderAll();
-    canvasStates.push(canvas.toJSON());
-    stateIndex++;
-    canvas.on('object:added', () => updateCanvasState());
-    canvas.on('object:modified', () => updateCanvasState());
-    canvas.on('object:removed', () => updateCanvasState());
-    console.log(stateIndex);
+    passFinalStateOnly(() => {
+        const selectedGroup = canvas.getActiveObject();
+        if (!selectedGroup || selectedGroup.type !== 'group') {
+            console.log('Selected object is not a group');
+            return;
+        }
+        selectedGroup.toActiveSelection();
+        canvas.requestRenderAll();
+    })
 }
 
+// The reverse of ungroupSVG, will also work with a collection
+// of fabricjs objects
 const groupSVG = () => {
+    passFinalStateOnly(() => {
+        const selectedGroup = canvas.getActiveObject();
+        if (!selectedGroup || selectedGroup.type !== 'activeSelection') {
+            console.log('Invalid selection')
+            return;
+        }
+        selectedGroup.toGroup();
+        canvas.requestRenderAll();
+    })   
+}
+
+const setSVGColor = (colorCode) => {
+    const selectedObject = canvas.getActiveObject();
+    selectedObject.setFill()
 
 }
 
