@@ -1,0 +1,128 @@
+.toolbar {
+  width: 30vw;
+  height: 88vh;
+  background-color: #fff;
+  margin: 20px;
+  display: flex;
+}
+
+.sidebar {
+  width: 70px;
+  height: 100%;
+  margin: 0;
+  background-color: #333333;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .tool {
+    width: 70px;
+    height: 70px;
+    color: lighten($color: #333333, $amount: 50%);
+    font-size: 12px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+      margin-top: 30px;
+    }
+
+    &:hover, &:active {
+      cursor: pointer;
+    }
+
+    &:hover {
+      color: #eee;
+    }
+
+    &:active, &:visited {
+      background: #eee;
+      color: #333333;
+    }
+
+    div.tool-icon {
+      height: 45px;
+      width: 45px;
+      background-color: lighten($color: #333333, $amount: 50%);
+    }
+  }
+}
+
+.toolbar-content {
+  width: calc(30vw - 70px);
+  height: 100%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+
+    h3 {
+      margin-top: 50px;
+      font-size: 1.3em;
+    }
+    .welcome-images {
+      margin-top: 30px;
+      display: grid;
+      width: 300px;
+      background-color: salmon;
+      height: 300px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+  } 
+}
+
+.header {
+  width: 100%;
+  background-color: #f6f6f6;
+  font-size: 0.7em;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.close {
+  position: absolute;
+  font-size: 1em;
+  right: 15px;
+}
+
+// -------- add - text ---------- //
+
+.page1 {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  input.page1-input {
+    width: 100%;
+    border: 1px solid rgb(110, 110, 110);
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  button {
+    background-color: #1f51cf;
+    border: none;
+    font-family: monospace;
+    padding: 15px 10px;
+    font-size: 0.8em;
+    color:#fff;
+    width: 195px;
+    align-self: flex-end;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: darken(#1f51cf, 10%);
+    }
+  }
+  
+}

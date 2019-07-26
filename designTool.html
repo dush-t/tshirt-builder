@@ -6,6 +6,7 @@
             type="text/css">
         <link type="text/css" rel="stylesheet" href="./dist/css/materialize.css" media="screen,projection" />
         <link type="text/css" rel="stylesheet" href="./dist/css/main.min.css" />
+        <link rel="stylesheet" href="./dist/css/toolbar.min.css">
         <link rel="stylesheet" href="./dist/css/global.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Tshirt Builder</title>
@@ -25,28 +26,40 @@
             <div class="toolbar">
                 <div class="sidebar">
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="1"></div>
                         Test
                     </div>
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="2"></div>
                         Art
                     </div>
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="3"></div>
                         Upload
                     </div>
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="4"></div>
                         Color
                     </div>
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="5"></div>
                         Name
                     </div>
                     <div class="tool">
-                        <div class="tool-icon"></div>
+                        <div class="tool-icon" id="6"></div>
                         Notes
+                    </div>
+                </div>
+                <div class="toolbar-content">
+                    <div class="content">
+                        <h3>How do you want to start?</h3>
+                        <div class="welcome-images"></div>
+                        <p> or start again </p>
+                        <!-- <div class="header">Add Text</div>
+                        <div class="page1">
+                            <input type="text" placeholder="Enter text here" class="page1-input">
+                            <button>Add to Design</button>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -56,9 +69,9 @@
             <img src="tshirt-grey.png" id="tshirt-grey">
         </div>
 
+        <script type="text/javascript" src="js/toolbar.js"></script>
         <script type="text/javascript" src="js/materialize.js"></script>
         <script type="text/javascript" src="js/fabric.js"></script>
         <script type="text/javascript" src="js/canvas.js"></script>
     </body>
-
 </html>
