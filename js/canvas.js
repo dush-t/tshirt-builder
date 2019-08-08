@@ -214,7 +214,7 @@ const addSVG = (url) => {
     })
 }
 
-addSVG('https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg');
+// addSVG('https://upload.wikimedia.org/wikipedia/commons/a/aa/FIFA_logo_without_slogan.svg');
 
 const passFinalStateOnly = (callback) => {
     undo_redo = true;

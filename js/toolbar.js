@@ -1,14 +1,21 @@
 // import * as actions from "./canvas";
 
 const mountContent = i => {
-  console.log("works");
+  parentDiv.innerHTML = "";
+  // console.log("works");
   switch (i) {
     case 1:
-      parentDiv.innerHTML = "";
-      let title = addHeading(i - 1);
-      parentDiv.appendChild(title);
+      let title1 = addHeading(i - 1);
+      parentDiv.appendChild(title1);
       parentDiv.appendChild(page1);
       break;
+
+    case 2:
+      let title2 = addHeading(i-1);
+      parentDiv.appendChild(title2);
+      parentDiv.appendChild(page2);
+      break;
+
     default:
       break;
   }
@@ -40,6 +47,16 @@ page1.innerHTML = `
     <button onclick="addText(document.getElementsByClassName('page1-input')[0].value, {})">Add to Design</button>
 </div>
 `;
+
+// --------- add image --------
+const page2 = document.createElement("div");
+page2.classList.add("page1");
+page2.innerHTML = `
+<div class="page1">
+    <input type="text" placeholder="Enter url here" class="page2-input">
+    <button onclick="addImage(document.getElementsByClassName('page2-input')[0].value,1)">Add to Design</button>
+</div>
+`
 
 // --------------------------
 
