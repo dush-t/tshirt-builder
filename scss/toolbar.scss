@@ -4,6 +4,29 @@
   background-color: #fff;
   margin: 20px;
   display: flex;
+  position: relative;
+}
+
+.undo-redo {
+  position: absolute;
+  right: 0;
+  transform: translateX(60px);
+  z-index: 200;
+  height: 180px;
+  width: 60px;
+  background-color: rgba(246, 246, 246, 0.9);
+
+  .undo-button,
+  .redo-button {
+    height: 90px;
+    width: 60px;
+    padding: 5px;
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .sidebar {
@@ -30,7 +53,8 @@
       margin-top: 30px;
     }
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       cursor: pointer;
     }
 
@@ -38,7 +62,8 @@
       color: #eee;
     }
 
-    &:active, &:visited {
+    &:active,
+    &:visited {
       background: #eee;
       color: #333333;
     }
@@ -70,12 +95,28 @@
       margin-top: 30px;
       display: grid;
       width: 300px;
-      background-color: salmon;
       height: 300px;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
+
+      #addItem {
+        height: 100%;
+        width: 100%;
+      }
+
+      .text {
+        background: url("../../images/abc.svg") no-repeat center center/cover;
+      }
+      .img {
+        background: url("../../images/img.svg") no-repeat center center/cover;
+      }
+
+      .text, .img {
+        width: 100%;
+        text-align: center;
+      }
     }
-  } 
+  }
 }
 
 .header {
@@ -112,10 +153,10 @@
   button {
     background-color: #1f51cf;
     border: none;
-    font-family: monospace;
+    font-family: 'Red Hat Display';
     padding: 15px 10px;
     font-size: 0.8em;
-    color:#fff;
+    color: #fff;
     width: 195px;
     align-self: flex-end;
     border-radius: 5px;
@@ -124,5 +165,4 @@
       background-color: darken(#1f51cf, 10%);
     }
   }
-  
 }
