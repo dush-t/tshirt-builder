@@ -4,11 +4,13 @@
   background-color: #fff;
   margin: 20px;
   display: flex;
+  position: relative;
 }
 
 .undo-redo {
   position: absolute;
-  left: 510px;
+  right: 0;
+  transform: translateX(60px);
   z-index: 200;
   height: 180px;
   width: 60px;
@@ -93,9 +95,9 @@
       margin-top: 30px;
       display: grid;
       width: 300px;
-      height: 300px;
+      height: 150px;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: 100%;
 
       #addItem {
         height: 100%;
@@ -107,6 +109,11 @@
       }
       .img {
         background: url("../../images/img.svg") no-repeat center center/cover;
+      }
+
+      .text, .img {
+        width: 100%;
+        text-align: center;
       }
     }
   }
@@ -146,7 +153,7 @@
   button {
     background-color: #1f51cf;
     border: none;
-    font-family: monospace;
+    font-family: 'Red Hat Display';
     padding: 15px 10px;
     font-size: 0.8em;
     color: #fff;
