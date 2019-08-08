@@ -6,6 +6,26 @@
   display: flex;
 }
 
+.undo-redo {
+  position: absolute;
+  left: 510px;
+  z-index: 200;
+  height: 180px;
+  width: 60px;
+  background-color: rgba(246,246,246,.9);
+
+  .undo-button, .redo-button {
+    height: 90px;
+    width: 60px;
+    padding: 5px;
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 .sidebar {
   width: 70px;
   height: 100%;
