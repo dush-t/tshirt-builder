@@ -21,6 +21,10 @@ let canvas = new fabric.Canvas("mainCanvas");
 canvas.setWidth(canvasWidth);
 canvas.setHeight(canvasHeight);
 
+// Enable guiding alignment lines for objects.
+useCenteringGuidelines(canvas);
+useAligningGuidelines(canvas);
+
 
 /*
     Calculating the scale factor of the canvas' background
